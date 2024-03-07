@@ -7,7 +7,7 @@ final class NoteCubitInitial extends NoteCubitState {}
 
 class NoteInitial extends NoteCubitState {}
 
-
+class NoteSucces extends NoteCubitState{}
 
 
 

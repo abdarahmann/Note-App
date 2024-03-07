@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notes_app/cubit/note_cubit/cubit/note_cubit_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_note_view.dart';
 
 class NoteItem extends StatelessWidget {
-  const NoteItem({super.key,required this.noteModel});
+  const NoteItem({super.key, required this.noteModel});
   final NoteModel noteModel;
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class NoteItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(22),
         decoration: BoxDecoration(
-          color: const Color(0xffFECD7E),
+          color: Color(noteModel.color),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -45,7 +47,10 @@ class NoteItem extends StatelessWidget {
                 ),
               ),
               trailing: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    noteModel.delete();
+                    BlocProvider.of<NoteCubitCubit>(context).fetchAllNotes();
+                  },
                   icon: const Icon(
                     FontAwesomeIcons.trash,
                     color: Colors.black,
@@ -55,7 +60,7 @@ class NoteItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 15),
               child: Text(
-              noteModel.date,
+                noteModel.date,
                 style: TextStyle(
                   color: Colors.black.withOpacity(.4),
                 ),
