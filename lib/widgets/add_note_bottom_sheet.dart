@@ -10,26 +10,29 @@ class NoteBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: BlocConsumer<AddNoteCubitCubit, AddNoteCubitState>(
-        listener: (context, state) {
-          if (state is AddNoteFaliure) {
-            print('oook');
-          }
-          if (state is AddNoteSucces) {
-            Navigator.pop(context);
-            print("succses");
-          }
-        },
-        builder: (context, state) {
-          return ModalProgressHUD(
-            inAsyncCall: state is AddNoteLoading ? true : false,
-            child: const SingleChildScrollView(
-              child: AddNoteForm(),
-            ),
-          );
-        },
+    return BlocProvider(
+      create: (context) =>AddNoteCubitCubit(),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: BlocConsumer<AddNoteCubitCubit, AddNoteCubitState>(
+          listener: (context, state) {
+            if (state is AddNoteFaliure) {
+              print(state.errMessage);
+            }
+            if (state is AddNoteSucces) {
+              Navigator.pop(context);
+            
+            }
+          },
+          builder: (context, state) {
+            return ModalProgressHUD(
+              inAsyncCall: state is AddNoteLoading ? true : false,
+              child: const SingleChildScrollView(
+                child: AddNoteForm(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
